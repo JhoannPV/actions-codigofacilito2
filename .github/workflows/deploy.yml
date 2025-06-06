@@ -41,10 +41,10 @@ jobs:
         steps:
             - name: Print environment variable
               id: step_3
-              run: echo "my_variable=$HELLO" >> $GITHUB_ENV
+              run: echo "my_variable==$HELLO" >> $GITHUB_ENV
 
             - name: Print environment variable
-              run: echo "${{github.env}}"
+              run: echo "${{github.env.my_variable}}"
 
             - name: Print output variable
               run: echo "${{steps.step_3.outputs.my_variable}}"

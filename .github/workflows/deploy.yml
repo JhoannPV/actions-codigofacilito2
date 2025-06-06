@@ -32,24 +32,29 @@ jobs:
 
     tercer_job:
         runs-on: ubuntu-latest
-        env:
-            HELLO: HOLA MUNDO
 
         outputs:
             salida: ${{ steps.step_3.outputs.my_variable }}
 
         steps:
-            - name: Print environment variable
+            - name: Set output from environment variable
               id: step_3
-              run: echo "my_variable==$HELLO" >> $GITHUB_ENV
-
-            - name: Print environment variable
-              run: echo "${{github.env.my_variable}}"
+              run: echo "my_variable=Hola que tal" >> $GITHUB_OUTPUT
 
             - name: Print output variable
               run: echo "${{steps.step_3.outputs.my_variable}}"
 
     cuarto_job:
+        runs-on: ubuntu-latest
+        needs: tercer_job
+        env:
+          SALIDA: ${{ needs.tercer_job.outputs.salida }}
+
+        steps:
+            - name: Print message
+              run: echo "$SALIDA"
+
+    quinto_job:
         runs-on: ubuntu-latest
         if: false
 
